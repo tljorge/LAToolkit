@@ -3,7 +3,7 @@ TODO List
 1) GUI for entering matrices and different operators as buttons
     1a. Help button/instructions
     1b. answer field
-    1c. operation field
+    
 
 
 2) Text processor -> matrix objects
@@ -12,3 +12,6 @@ TODO List
     3a. Gaussian elimination
 
 4) Fix any bugs
+    4a. Need to make matrix operations that require 2 matrices be able to
+        multiply based on 2 passed matrices. Currently operates on a given matrix
+        with itself.

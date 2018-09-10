@@ -4,7 +4,7 @@ package LAToolkit;
 
 public class Test {
     public static void main(String[] args) {
-        Matrix m = new Matrix(3,3);
+        Matrix m = new Matrix("test",3,3);
         
         m.setVal(0,0,2);
         m.setVal(0,1,2);

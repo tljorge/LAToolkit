@@ -14,6 +14,7 @@ package LAToolkit;
  * @author Tyler Jorgensen - 2017
  */
 public class Matrix { 
+    private String varname;
     private int r;
     private int c;
     private double[][] matrix;
@@ -22,6 +23,13 @@ public class Matrix {
         this.r = 0;
         this.c = 0;
         this.matrix = new double[0][0];
+    }
+    
+    public Matrix(String varname, int r,int c){ //define dimensions off matrix w/ varname
+        this.varname = varname;
+        this.r = r;
+        this.c = c;
+        this.matrix = new double[r][c];
     }
     
     public Matrix(int r,int c){ //define dimensions off matrix, no fill

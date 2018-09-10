@@ -5,12 +5,16 @@
  */
 package LAToolkit;
 
+
+import com.sun.xml.internal.ws.util.StringUtils;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.scene.input.*;
+import javafx.event.*;
 
 /**
  * GUI for linear algebra problems
@@ -23,15 +27,30 @@ public class GUI extends Application {
         //Fields
         //Text area for creating matrices
         TextArea txt = new TextArea();
-        txt.setMaxSize(400 , 400);
-        txt.setMinSize(400 , 400);
+        txt.setMaxSize(300 , 300);
+        txt.setMinSize(300 , 300);
         
+        
+        /* Increasing space width (test)
+        
+        String sp = "  ";
+        txt.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                if (e.getCode() == KeyCode.SPACE) {
+                    String s = " ";
+                    s = s.concat(sp);
+                    txt.insertText(txt.getCaretPosition(), s);
+                    e.consume();
+                }
+            }
+        });
+        */
+               
         //Creates a matrix variable for later use, clears text area
-        Button createMatrix = new Button("Create Matrix");
-        createMatrix.setPadding(new Insets(10,10,10,10));
-        
-        //Solves the matrix operation
         Button solve = new Button("Solve");
+        solve.setPadding(new Insets(10,10,10,10));
+        
         
         //Panes
         BorderPane border = new BorderPane();
@@ -57,7 +76,8 @@ public class GUI extends Application {
         center.setVgap(10); center.setHgap(10);
         center.setPadding(new Insets(10,10,10,10));
         center.add(txt, 0, 0);
-        center.add(createMatrix,0,1);
+        center.add(solve,0,1);
+        
         
         //Pane layouts
         border.setCenter(center);
@@ -65,7 +85,15 @@ public class GUI extends Application {
         border.setLeft(left);
         border.setRight(right);
        
-        
+        //Solve event
+        solve.setOnAction(new EventHandler <ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                String s = txt.getText();
+                StringCleaner.clean(s);
+                //System.out.print(s);
+            }
+        });
        
         //Initializing scene
         Scene scene = new Scene(border, 800, 600);
