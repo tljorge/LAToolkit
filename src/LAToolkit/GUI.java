@@ -6,46 +6,49 @@
 package LAToolkit;
 
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.scene.input.*;
 import javafx.event.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  * GUI for linear algebra problems
  * @author Tyler Jorgensen
  */
+
+
+
 public class GUI extends Application {
+    
     
     @Override
     public void start(Stage primaryStage) {
         //Fields
         //Text area for creating matrices
         TextArea txt = new TextArea();
+        
         txt.setMaxSize(300 , 300);
         txt.setMinSize(300 , 300);
         
         
-        /* Increasing space width (test)
+        // Converting space to tab for proper width
         
-        String sp = "  ";
         txt.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
                 if (e.getCode() == KeyCode.SPACE) {
-                    String s = " ";
-                    s = s.concat(sp);
-                    txt.insertText(txt.getCaretPosition(), s);
+                    
+                    txt.insertText(txt.getCaretPosition(), "\t"); //inserts the replacement tab
                     e.consume();
                 }
             }
         });
-        */
+        
                
         //Creates a matrix variable for later use, clears text area
         Button solve = new Button("Solve");
@@ -91,15 +94,16 @@ public class GUI extends Application {
             public void handle(ActionEvent event) {
                 String s = txt.getText();
                 StringCleaner.clean(s);
-                //System.out.print(s);
+                
             }
         });
        
         //Initializing scene
         Scene scene = new Scene(border, 800, 600);
+        scene.getStylesheets().add(this.getClass().getResource("/LAToolkit/styles.css").toExternalForm());
         
         //Initializing stage
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Linear Algebra Toolkit");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

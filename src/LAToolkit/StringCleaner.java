@@ -17,24 +17,25 @@ import java.util.Scanner;
  */
 public class StringCleaner {
     static String input;
-    static ArrayList<Matrix> matrices;
+    static ArrayList<Matrix> matrices = new ArrayList<>();
 
     public static void clean(String s) {
         input = s; // raw input from text area (passed in the GUI)
         Scanner scan = new Scanner(s); //scanner for raw input
+       
         
         //Variables for later use
         String varname = "";
         List<Double> list = new ArrayList<>();
         
-        int columnLength = 0; //update as goes
+        int rowCt = 0; //update as goes
         
-        //for initial row length to confirm all rows are equal length
-        int initRowLength = 0;
-        boolean rowCheck = false;
+        //for initial Column length to confirm all rows are equal length
+        int initColumnLength = 0;
+        boolean columnCheck = false;
         
         //If rows are unbalanced matrix creation will not occur
-        boolean balancedRows = true;
+        boolean balancedColumns = true;
         
         //regex for variable names
         String varMatch = "[a-zA-Z]+"; //regular expression for variable name
@@ -51,46 +52,43 @@ public class StringCleaner {
             if (line.hasNext(varMatch)){
                 varname = line.next(varMatch);
                 System.out.println(varname);
-            } else {
-                System.out.println("No variable name detected");
-            }
+                
+            } 
             
-            //checking for matrix indicator '='
+            //checking for matrix indicator '=' Not needed?
             if (line.hasNext(matrixIndicator)){
                 line.next(matrixIndicator);
-            } else {
-                System.out.println("No matrix indicator"); //neccesary?
                 
-            }
+            } 
             //int rowCt = 0; scope issues
             //check for doubles and ints?
-            if (line.hasNextDouble() || line.hasNextInt()){
-                int rowLength = 0;
-                while (line.hasNextDouble() || line.hasNextInt()){
-                    if(!rowCheck){
-                        initRowLength++;
+            if (line.hasNextDouble()){
+                int columnLength = 0;
+                while (line.hasNextDouble()){
+                    if(!columnCheck){
+                        initColumnLength++;
                     }
-                    rowLength++;
+                    columnLength++;
                     list.add(line.nextDouble());
                     //need case for integer entry, maybe not?
                 }
-                if (rowLength != initRowLength) {
-                    balancedRows = false;
+                if (columnLength != initColumnLength) {
+                    balancedColumns = false;
                 }
-                rowCheck=true;
-                columnLength++;
+                columnCheck=true;
+                rowCt++;
             }
             
             System.out.println(list.toString());
             
         }
         //System.out.println("Row total: "+ rowTotal);
-        System.out.println("Initial row length: "+ initRowLength);
-        System.out.println("Column total: "+ columnLength);
-        if (balancedRows==true){
+        System.out.println("Initial column length: "+ initColumnLength);
+        System.out.println("Row total: "+ rowCt);
+        if (balancedColumns==true){
             //create matrix and clear variables
             //columnLength is number of rows and rowLength is number of columns
-            createMatrix(varname,list,initRowLength,columnLength);
+            matrices.add(createMatrix(varname,list,rowCt,initColumnLength));
         } else {
             System.out.println("Error in creating matrix: Unbalanced rows");
         }
@@ -99,19 +97,39 @@ public class StringCleaner {
     }
     
     /* Creates a matrix */
-    private static void createMatrix (String varname, List<Double> l, int rows, int columns){
+
+    /**
+     *
+     * @param varname
+     * @param l
+     * @param rows
+     * @param columns
+     * @return
+     */
+
+    private static Matrix createMatrix (String varname, List<Double> l, int rows, int columns){
         Matrix m = new Matrix(varname,rows,columns);
         int listIndexCt = 0;
         
-        for(int i=0;i<columns;i++){
-            for(int j=0;j<rows;j++){
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<columns;j++){
                 double val  = l.get(listIndexCt);
-                m.setVal(j, i, val);
+                System.out.println(val);
+                m.setVal(i, j, val);
                 listIndexCt++;
             }
         }
+        m.print();
+        return m;
+    }
+    
+    public static Matrix getMatrix (String varname){
+        for (int i=0;i<matrices.size();i++){
+            if (matrices.get(i).getVarName().equals(varname)){
+                return matrices.get(i);
+            }
+        }
         
-        matrices.add(m);
-        
+        return null;
     }
 }

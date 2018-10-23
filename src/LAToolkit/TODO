@@ -1,12 +1,15 @@
 TODO List
 
 1) GUI for entering matrices and different operators as buttons
-    1a. Help button/instructions
-    1b. answer field
+    1a. Answer field
+    1b. Help button/instructions
+    1c. Clear button
+  
     
 
-
 2) Text processor -> matrix objects
+    2a. Working for 1 matrix no operations supported, needs to handle 2+
+    2b. Get operations supported
 
 3) More matrix operations
     3a. Gaussian elimination

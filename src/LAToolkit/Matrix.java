@@ -90,6 +90,10 @@ public class Matrix {
         return this.matrix[r][c];
     }
     
+    public String getVarName(){
+        return this.varname;
+    }
+    
     /** prints the values of this matrix */
     public void print(){
         for(int i=0;i<r;i++){
