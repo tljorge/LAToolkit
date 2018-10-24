@@ -100,7 +100,7 @@ public class GUI extends Application {
        
         //Initializing scene
         Scene scene = new Scene(border, 800, 600);
-        scene.getStylesheets().add(this.getClass().getResource("/LAToolkit/styles.css").toExternalForm());
+       
         
         //Initializing stage
         primaryStage.setTitle("Linear Algebra Toolkit");

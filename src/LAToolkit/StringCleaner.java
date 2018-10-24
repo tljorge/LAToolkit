@@ -22,8 +22,14 @@ public class StringCleaner {
     public static void clean(String s) {
         input = s; // raw input from text area (passed in the GUI)
         Scanner scan = new Scanner(s); //scanner for raw input
-       
         
+        while (scan.hasNextLine()){
+            cleanMatrix(scan);        
+        }
+        
+    }
+    
+    public static void cleanMatrix(Scanner scan){
         //Variables for later use
         String varname = "";
         List<Double> list = new ArrayList<>();
@@ -39,7 +45,7 @@ public class StringCleaner {
         
         //regex for variable names
         String varMatch = "[a-zA-Z]+"; //regular expression for variable name
-        String matrixIndicator = "=";  //denotes begining of matrix
+        
         
         //works for one matrix, can do for 2+?
         //checking for individual lines
@@ -47,19 +53,18 @@ public class StringCleaner {
             String l = scan.nextLine();
             Scanner line = new Scanner(l); //scanner for individual lines
             
-            
+            if(line.hasNext("/")){
+                line.next();
+                break;
+            }
+           
             //checking for variable name
-            if (line.hasNext(varMatch)){
+            if (line.hasNext(varMatch) && varname.equals("")){ //base case for varname
                 varname = line.next(varMatch);
-                System.out.println(varname);
+                //System.out.println(varname);
                 
-            } 
-            
-            //checking for matrix indicator '=' Not needed?
-            if (line.hasNext(matrixIndicator)){
-                line.next(matrixIndicator);
                 
-            } 
+            }
             //int rowCt = 0; scope issues
             //check for doubles and ints?
             if (line.hasNextDouble()){
@@ -79,21 +84,22 @@ public class StringCleaner {
                 rowCt++;
             }
             
-            System.out.println(list.toString());
-            
+            //System.out.println(list.toString());
         }
+        
         //System.out.println("Row total: "+ rowTotal);
-        System.out.println("Initial column length: "+ initColumnLength);
-        System.out.println("Row total: "+ rowCt);
+        //System.out.println("Initial column length: "+ initColumnLength);
+        //System.out.println("Row total: "+ rowCt);
         if (balancedColumns==true){
             //create matrix and clear variables
             //columnLength is number of rows and rowLength is number of columns
             matrices.add(createMatrix(varname,list,rowCt,initColumnLength));
+            System.out.println("Matrix "+ varname + " successfully created");
         } else {
             System.out.println("Error in creating matrix: Unbalanced rows");
         }
         
-        
+       
     }
     
     /* Creates a matrix */
