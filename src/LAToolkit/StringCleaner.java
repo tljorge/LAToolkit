@@ -19,17 +19,35 @@ public class StringCleaner {
     static String input;
     static ArrayList<Matrix> matrices = new ArrayList<>();
 
+    /** Cleans the raw input into usable information
+     * @param s */
     public static void clean(String s) {
         input = s; // raw input from text area (passed in the GUI)
         Scanner scan = new Scanner(s); //scanner for raw input
         
-        while (scan.hasNextLine()){
-            cleanMatrix(scan);        
+        while (scan.hasNextLine()){ //build multiple matrices
+            cleanMatrix(scan);    
+            //cleanFunctions?
         }
         
     }
     
-    public static void cleanMatrix(Scanner scan){
+    /** Finds function in raw text and reduces it down to usable matrix operations
+     * for execution
+     * @param scan 
+     */
+    private static void cleanFunction(Scanner scan){
+        //Needs to find function declaration
+        //fucnt?
+        
+    }
+    
+    //Need to reconsider moving scanner until matrix declaration is secured
+    /**
+     * Takes raw input text and creates matrices from it
+     * @param scan
+     */
+    private static void cleanMatrix(Scanner scan){
         //Variables for later use
         String varname = "";
         List<Double> list = new ArrayList<>();
@@ -44,7 +62,7 @@ public class StringCleaner {
         boolean balancedColumns = true;
         
         //regex for variable names
-        String varMatch = "[a-zA-Z]+"; //regular expression for variable name
+        String varMatch = "[a-zA-Z=]+"; //regular expression for variable name
         
         
         //works for one matrix, can do for 2+?
@@ -59,15 +77,10 @@ public class StringCleaner {
             }
            
             //checking for variable name
-            if (line.hasNext(varMatch) && varname.equals("")){ //base case for varname
+            if (line.hasNext(varMatch)){ //base case for varname
                 varname = line.next(varMatch);
                 //System.out.println(varname);
-                
-                
-            }
-            //int rowCt = 0; scope issues
-            //check for doubles and ints?
-            if (line.hasNextDouble()){
+            } else if(line.hasNextDouble()){
                 int columnLength = 0;
                 while (line.hasNextDouble()){
                     if(!columnCheck){
@@ -82,8 +95,9 @@ public class StringCleaner {
                 }
                 columnCheck=true;
                 rowCt++;
+            } else {
+                break;
             }
-            
             //System.out.println(list.toString());
         }
         
@@ -102,9 +116,7 @@ public class StringCleaner {
        
     }
     
-    /* Creates a matrix */
-
-    /**
+    /** Creates a matrix 
      *
      * @param varname
      * @param l

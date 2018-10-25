@@ -1,20 +1,13 @@
 TODO List
+1) Text processor -> matrix objects
+    2a. Get operations supported
 
-1) GUI for entering matrices and different operators as buttons
-    1a. Answer field
-    1b. Help button/instructions
-    1c. Clear button
-  
-    
-
-2) Text processor -> matrix objects
-    2a. Working for 1 matrix no operations supported, needs to handle 2+
-    2b. Get operations supported
+2) GUI for entering matrices and different operators as buttons
+    1a. Move GUI layout into functions
+    1b. Answer field
+    1c. Help button/instructions
+    1d. Clear button
 
 3) More matrix operations
     3a. Gaussian elimination
 
-4) Fix any bugs
-    4a. Need to make matrix operations that require 2 matrices be able to
-        multiply based on 2 passed matrices. Currently operates on a given matrix
-        with itself.
