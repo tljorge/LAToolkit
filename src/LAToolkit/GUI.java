@@ -38,14 +38,11 @@ public class GUI extends Application {
         
         // Converting space to tab for proper width
         
-        txt.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                if (e.getCode() == KeyCode.SPACE) {
-                    
-                    txt.insertText(txt.getCaretPosition(), "\t"); //inserts the replacement tab
-                    e.consume();
-                }
+        txt.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
+            if (e.getCode() == KeyCode.SPACE) {
+                
+                txt.insertText(txt.getCaretPosition(), "\t"); //inserts the replacement tab
+                e.consume();
             }
         });
         
@@ -89,13 +86,9 @@ public class GUI extends Application {
         border.setRight(right);
        
         //Solve event
-        solve.setOnAction(new EventHandler <ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-                String s = txt.getText();
-                StringCleaner.clean(s);
-                
-            }
+        solve.setOnAction((ActionEvent event) -> {
+            String s = txt.getText();
+            StringParser.parse(s);
         });
        
         //Initializing scene

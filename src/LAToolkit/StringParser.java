@@ -15,19 +15,20 @@ import java.util.Scanner;
  * string cleaner arraylist for use in gui.
  * @author Tyler Jorgensen
  */
-public class StringCleaner {
+public class StringParser {
     static String input;
     static ArrayList<Matrix> matrices = new ArrayList<>();
 
     /** Cleans the raw input into usable information
      * @param s */
-    public static void clean(String s) {
+    public static void parse(String s) {
         input = s; // raw input from text area (passed in the GUI)
         Scanner scan = new Scanner(s); //scanner for raw input
         
         while (scan.hasNextLine()){ //build multiple matrices
-            cleanMatrix(scan);    
-            //cleanFunctions?
+            parseMatrix(scan);    
+            //parseFunctions?
+            //Should be able to handle multiple functions and execute sequentially?
         }
         
     }
@@ -36,7 +37,7 @@ public class StringCleaner {
      * for execution
      * @param scan 
      */
-    private static void cleanFunction(Scanner scan){
+    private static void parseFunction(Scanner scan){
         //Needs to find function declaration
         //fucnt?
         
@@ -47,7 +48,7 @@ public class StringCleaner {
      * Takes raw input text and creates matrices from it
      * @param scan
      */
-    private static void cleanMatrix(Scanner scan){
+    private static void parseMatrix(Scanner scan){
         //Variables for later use
         String varname = "";
         List<Double> list = new ArrayList<>();
