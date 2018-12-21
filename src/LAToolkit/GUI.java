@@ -24,31 +24,42 @@ import javafx.scene.input.KeyEvent;
 
 
 public class GUI extends Application {
-    
+    //input state
+    static char state ='I';
+    //text area
+    TextArea txt = new TextArea();
     
     @Override
     public void start(Stage primaryStage) {
         //Fields
         //Text area for creating matrices
-        TextArea txt = new TextArea();
-        
-        txt.setMaxSize(300 , 300);
-        txt.setMinSize(300 , 300);
-        
-        
-        // Converting space to tab for proper width
-        
+        //TextArea txt = new TextArea();
         txt.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
-            if (e.getCode() == KeyCode.SPACE) {
+            if ((e.getCode() == KeyCode.SPACE)&&state=='M') {
                 
                 txt.insertText(txt.getCaretPosition(), "\t"); //inserts the replacement tab
+                e.consume();
+            } else if(e.getCode().isLetterKey()){
+                state='F';
+            } else if(e.getCode().isDigitKey()){
+                state='M';
+            }
+        });
+        
+        txt.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent e) -> {
+            if (e.getCode() == KeyCode.EQUALS) {
+                state='M';
+                txt.insertText(txt.getCaretPosition(), "\n"); //move to newline
                 e.consume();
             }
         });
         
+        txt.setMaxSize(300 , 300);
+        txt.setMinSize(300 , 300);
+                
                
         //Creates a matrix variable for later use, clears text area
-        Button solve = new Button("Solve");
+        Button solve = new Button("Execute");
         solve.setPadding(new Insets(10,10,10,10));
         
         
@@ -89,6 +100,7 @@ public class GUI extends Application {
         solve.setOnAction((ActionEvent event) -> {
             String s = txt.getText();
             StringParser.parse(s);
+            state='F';
         });
        
         //Initializing scene
@@ -100,7 +112,16 @@ public class GUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    
+    /** States of the program 
+     * I - Program is in free state
+     * V - Variable is in process of being declared
+     * M - Matrix state
+     * F - Function state, or variable state
+     * E - Error state
+     */
+    
+ 
     /**
      * @param args the command line arguments
      */

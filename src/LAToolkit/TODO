@@ -1,13 +1,23 @@
 TODO List
 1) Text processor -> matrix objects
-    2a. Get operations supported
+    1a. Rework parsing into case structure
+    1b. States for text input (free state, var declaration, matrix declaration, matrix confirmation, matrix functions)
+    1c. Get operations supported
 
 2) GUI for entering matrices and different operators as buttons
-    1a. Move GUI layout into functions
-    1b. Answer field
-    1c. Help button/instructions
-    1d. Clear button
+    2a. Move GUI layout into functions
+    2b. Answer field
+    2c. Help button/instructions
+    2d. Clear button (clears memory?)
 
 3) More matrix operations
     3a. Gaussian elimination
+    3b. Eigenvalues
+
+4) Help/getting started
+
+5) Saving data into textfile
+    5a. Write raw matrix data into text file
+    5b. Read data for later use
+
 
