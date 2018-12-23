@@ -10,7 +10,9 @@ package LAToolkit;
  * -Kronecker multiplication
  * -horizontal concatenation
  * 
- * More functionality?
+ * More functionality
+ * -vertical concatenation
+ * -eigenvalues
  * @author Tyler Jorgensen - 2017
  */
 public class Matrix { 

@@ -25,14 +25,16 @@ public class StringParser {
     static HashMap<String, Matrix> matrices = new HashMap();
     
     //regex for variable names (check 'Cases' for more info)
-    static final String F_MATCH1 = "[A-Za-z]+\\({1}[A-Za-z]*\\,[A-Za-z]*\\){1}";     //starting regex, will need to modify when more operation syntax are declared
-    static final String F_MATCH2 = "[A-Za-z]+\\({1}[A-Za-z]*\\){1}";
-    //nested cases for all types of functions?
+    static final String F_MATCH1 = "[A-Za-z]+\\({1}[A-Za-z0-9]+\\,[A-Za-z0-9]+\\){1}";     //funct(Str,Str)
+    static final String F_MATCH2 = "[A-Za-z]+\\({1}[A-Za-z0-9]+\\){1}";                 //funct(Str)
+    static final String F_MATCH3 = "[A-Za-z]+\\({1}[0-9]+\\){1}";                    //funct(int)
+    static final String F_MATCH4 = "[A-Za-z]+\\({1}[A-Za-z0-9]+\\,[0-9]+\\){1}";        //funct(Str,int)
+    static final String F_MATCH5 = "[A-Za-z]+\\({1}[0-9]+\\,[A-Za-z0-9]+\\){1}";        //funct(int,Str)
 
     
-    static final String VAR_MATCH = "([a-zA-Z]+\\={1})|([a-zA-Z]\\s+\\={1})";                                //regular expression for variable name
-    static final String M_MATCH = "((\\d+|(\\d+(\\.\\d+)?))\\s*)+\\]?";          //regular expression for a line of integers/doubles
-    static final String E_MATCH = "\\/";                                         //regular expression for escape character '/'
+    static final String VAR_MATCH = "([a-zA-Z0-9]+\\={1})|([a-zA-Z0-9]\\s+\\={1})";        //regular expression for variable name
+    static final String M_MATCH = "((\\d+|(\\d+(\\.\\d+)?))\\s*)+\\]?";              //regular expression for a line of integers/doubles
+    static final String E_MATCH = "\\/";                                             //regular expression for escape character '/'
     
     /* Temporary data for matrix object creation */
    
@@ -78,9 +80,17 @@ public class StringParser {
                 parseEscape();
             }
             //case 4: Reads a function command
-            else if(line.matches(F_MATCH1)||line.matches(F_MATCH2)){
+            else if(line.matches(F_MATCH1)){
                 parseFunction(line);
-            }
+            }else if(line.matches(F_MATCH2)){
+                parseFunction(line);
+            }else if(line.matches(F_MATCH3)){
+                parseFunction(line);
+            }else if(line.matches(F_MATCH4)){
+                parseFunction(line);
+            }else if(line.matches(F_MATCH5)){
+                parseFunction(line);
+            } 
             //base case: No match/error?
             else{
                 System.out.println("Did not match anything");
@@ -150,8 +160,15 @@ public class StringParser {
     private static void parseFunction(String line) {
         //Regular expressions for various functions
         
-        //Matrix multiplication
-        String mMultiply = "(multiply\\(){1}[A-Za-z]+\\,{1}[A-Za-z]+\\){1}";
+        //Matrix multiplication regex
+        String mRegex = "(multiply\\(){1}[A-Za-z0-9]+\\,{1}[A-Za-z0-9]+\\){1}";
+        //Matrix addition regex
+        String addRegex = "(add\\(){1}[A-Za-z0-9]+\\,{1}[A-Za-z0-9]+\\){1}";
+        //Transpose regex
+        String transposeRegex = "transpose\\({1}[A-Za-z0-9]+\\){1}";
+        //Creation of identity matrix
+        String identityRegex = "identity\\({1}[0-9]+\\){1}";
+        
         
         //Getting the indexes for extracting variable names
         int startIndex1 = line.indexOf('(')+1;
@@ -160,15 +177,40 @@ public class StringParser {
         int startIndex2 = line.indexOf(',')+1;
         int endIndex2 = line.indexOf(')');
         
-        
-        if(line.matches(mMultiply)){
+        //function to multiply two matrices
+        if(line.matches(mRegex)){
             String var1 = line.substring(startIndex1,endIndex1);
             String var2 = line.substring(startIndex2,endIndex2);
             
-            System.out.println("Variable one is: "+var1);
-            System.out.println("Variable two is: "+var2);
+            //System.out.println("Variable one is: "+var1);
+            //System.out.println("Variable two is: "+var2);
             
             Matrix m = getMatrix(var1).mMultiply(getMatrix(var2));
+            m.print();
+        }
+        //function to add two matrices
+        else if (line.matches(addRegex)){
+            String var1 = line.substring(startIndex1,endIndex1);
+            String var2 = line.substring(startIndex2,endIndex2);
+            
+            Matrix m = getMatrix(var1).add(getMatrix(var2));
+            m.print();
+        }
+        //transpose a matrix
+        else if(line.matches(transposeRegex)){
+            String var1 =line.substring(startIndex1,endIndex2);
+            
+            Matrix m = getMatrix(var1);
+            m.transpose();
+            m.print();
+        }
+        //creating identity matrix
+        else if(line.matches(identityRegex)){
+            String var1 = line.substring(startIndex1,endIndex2);
+            int val = Integer.parseInt(var1);
+            
+            Matrix m = new Matrix(val);
+            m.print();
             
         }
     }

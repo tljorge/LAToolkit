@@ -113,14 +113,6 @@ public class GUI extends Application {
         primaryStage.show();
     }
     
-    /** States of the program 
-     * I - Program is in free state
-     * V - Variable is in process of being declared
-     * M - Matrix state
-     * F - Function state, or variable state
-     * E - Error state
-     */
-    
  
     /**
      * @param args the command line arguments
