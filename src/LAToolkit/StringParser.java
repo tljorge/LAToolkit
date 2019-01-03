@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class StringParser {
     //input passed from GUI
     static String input;
-    
+    static String output;
     //data structure to hold the created matrix objects
     static HashMap<String, Matrix> matrices = new HashMap();
     
@@ -186,7 +186,7 @@ public class StringParser {
             //System.out.println("Variable two is: "+var2);
             
             Matrix m = getMatrix(var1).mMultiply(getMatrix(var2));
-            m.print();
+            output = m.toString();
         }
         //function to add two matrices
         else if (line.matches(addRegex)){
@@ -194,7 +194,7 @@ public class StringParser {
             String var2 = line.substring(startIndex2,endIndex2);
             
             Matrix m = getMatrix(var1).add(getMatrix(var2));
-            m.print();
+            output = m.toString();
         }
         //transpose a matrix
         else if(line.matches(transposeRegex)){
@@ -202,7 +202,7 @@ public class StringParser {
             
             Matrix m = getMatrix(var1);
             m.transpose();
-            m.print();
+            output = m.toString();
         }
         //creating identity matrix
         else if(line.matches(identityRegex)){
@@ -210,7 +210,7 @@ public class StringParser {
             int val = Integer.parseInt(var1);
             
             Matrix m = new Matrix(val);
-            m.print();
+            output = m.toString();
             
         }
     }

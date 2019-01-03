@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.event.*;
+import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -27,40 +28,34 @@ public class GUI extends Application {
     //input state
     static char state ='I';
     //text area
-    TextArea txt = new TextArea();
+    TextArea input = new TextArea();
+    TextArea output = new TextArea();
+    
+    String exampleText = "Sample: \n A = \n 1 3 5 \n / \n B = \n 1 \n 2 \n 3 \n / \n multiply(A,B)";
+    
     
     @Override
     public void start(Stage primaryStage) {
         //Fields
         //Text area for creating matrices
-        //TextArea txt = new TextArea();
-        txt.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
-            if ((e.getCode() == KeyCode.SPACE)&&state=='M') {
+        input.setMaxSize(300 , 300);
+        input.setMinSize(300 , 300);
+        input.setPromptText(exampleText);
                 
-                txt.insertText(txt.getCaretPosition(), "\t"); //inserts the replacement tab
-                e.consume();
-            } else if(e.getCode().isLetterKey()){
-                state='F';
-            } else if(e.getCode().isDigitKey()){
-                state='M';
-            }
-        });
+        output.setMaxSize(300 , 300);
+        output.setMinSize(300 , 300);
         
-        txt.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent e) -> {
-            if (e.getCode() == KeyCode.EQUALS) {
-                state='M';
-                txt.insertText(txt.getCaretPosition(), "\n"); //move to newline
-                e.consume();
-            }
-        });
+        output.setEditable(false);
+        output.setPromptText("Awaiting output");
         
-        txt.setMaxSize(300 , 300);
-        txt.setMinSize(300 , 300);
-                
+        
                
         //Creates a matrix variable for later use, clears text area
         Button solve = new Button("Execute");
         solve.setPadding(new Insets(10,10,10,10));
+        
+        //Label for output
+        Label outputLabel = new Label("Output");
         
         
         //Panes
@@ -81,13 +76,16 @@ public class GUI extends Application {
         left.setStyle("-fx-background-color: #336699;");
         
         //Right layout
-    
+  
+        
         
         //Center layout
         center.setVgap(10); center.setHgap(10);
         center.setPadding(new Insets(10,10,10,10));
-        center.add(txt, 0, 0);
+        center.add(input, 0, 0);
         center.add(solve,0,1);
+        center.add(output,1,0);
+        
         
         
         //Pane layouts
@@ -96,12 +94,38 @@ public class GUI extends Application {
         border.setLeft(left);
         border.setRight(right);
        
-        //Solve event
+        //Events
+        //Execute event, sends data to parser
         solve.setOnAction((ActionEvent event) -> {
-            String s = txt.getText();
+            String s = input.getText();
             StringParser.parse(s);
             state='F';
+            output.setEditable(true);
+            output.setText(StringParser.output);
+            output.setEditable(false);
         });
+        
+        //Changing spacing
+        input.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent e) -> {
+            if ((e.getCode() == KeyCode.SPACE)&&state=='M') {
+                
+                input.insertText(input.getCaretPosition(), "\t"); //inserts the replacement tab
+                e.consume();
+            } else if(e.getCode().isLetterKey()){
+                state='F';
+            } else if(e.getCode().isDigitKey()){
+                state='M';
+            }
+        });
+        
+        input.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent e) -> {
+            if (e.getCode() == KeyCode.EQUALS) {
+                state='M';
+                input.insertText(input.getCaretPosition(), "\n"); //move to newline
+                e.consume();
+            }
+        });
+        
        
         //Initializing scene
         Scene scene = new Scene(border, 800, 600);
@@ -112,7 +136,6 @@ public class GUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
  
     /**
      * @param args the command line arguments

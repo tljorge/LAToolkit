@@ -245,4 +245,24 @@ public class Matrix {
         }
         return b;
     }  
+    
+    @Override
+    public String toString(){
+        String s = "Output = \n";
+        
+        for (int i=0;i<this.r;i++){
+            for (int j=0;j<this.c;j++){
+                double v = this.getVal(i, j);
+                String val = Double.toString(v);
+                s = s + val + "   ";
+            }
+            s = s + "\n";
+        }
+        
+        if (s == null){
+            return ("Null input");
+        } else {
+            return s;
+        }
+    }
 }
